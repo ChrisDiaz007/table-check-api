@@ -1,6 +1,9 @@
 class User < ApplicationRecord
   enum role: { customer: 0, owner: 1 }
 
+  # Restaurants
+  has_many :restaurants, dependent: :destroy
+
   # Reservations
   has_many :reservations, dependent: :destroy
 

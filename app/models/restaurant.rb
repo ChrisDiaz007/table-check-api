@@ -13,7 +13,7 @@ class Restaurant < ApplicationRecord
   has_many :follows, dependent: :destroy
   has_many :followers, through: :follows, source: :user
 
-  # Fans (users who favorited this restaurant)
+  # Fans - users who favorite this restaurant
   has_many :favorites, dependent: :destroy
   has_many :fans, through: :favorites, source: :user
 

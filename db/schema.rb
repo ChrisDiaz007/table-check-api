@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_04_201134) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_04_204920) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -60,7 +60,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_04_201134) do
 
   create_table "restaurants", force: :cascade do |t|
     t.string "name", null: false
-    t.string "location"
+    t.string "address"
     t.text "description"
     t.string "phone_number"
     t.string "website"
@@ -69,6 +69,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_04_201134) do
     t.integer "favorites_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_restaurants_on_user_id"
   end
 
   create_table "tables", force: :cascade do |t|
@@ -107,5 +109,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_04_201134) do
   add_foreign_key "reservations", "tables"
   add_foreign_key "reservations", "users"
   add_foreign_key "restaurant_hours", "restaurants"
+  add_foreign_key "restaurants", "users"
   add_foreign_key "tables", "restaurants"
 end
