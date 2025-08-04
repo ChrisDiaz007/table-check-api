@@ -10,9 +10,53 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_04_194815) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_04_201134) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "favorites", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "restaurant_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["restaurant_id"], name: "index_favorites_on_restaurant_id"
+    t.index ["user_id", "restaurant_id"], name: "index_favorites_on_user_id_and_restaurant_id", unique: true
+    t.index ["user_id"], name: "index_favorites_on_user_id"
+  end
+
+  create_table "follows", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "restaurant_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["restaurant_id"], name: "index_follows_on_restaurant_id"
+    t.index ["user_id", "restaurant_id"], name: "index_follows_on_user_id_and_restaurant_id", unique: true
+    t.index ["user_id"], name: "index_follows_on_user_id"
+  end
+
+  create_table "reservations", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "restaurant_id", null: false
+    t.bigint "table_id", null: false
+    t.datetime "reservation_time", null: false
+    t.integer "party_size", null: false
+    t.string "status", default: "pending"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["restaurant_id"], name: "index_reservations_on_restaurant_id"
+    t.index ["table_id"], name: "index_reservations_on_table_id"
+    t.index ["user_id"], name: "index_reservations_on_user_id"
+  end
+
+  create_table "restaurant_hours", force: :cascade do |t|
+    t.bigint "restaurant_id", null: false
+    t.integer "day_of_week", null: false
+    t.time "opens_at", null: false
+    t.time "closes_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["restaurant_id"], name: "index_restaurant_hours_on_restaurant_id"
+  end
 
   create_table "restaurants", force: :cascade do |t|
     t.string "name", null: false
@@ -25,6 +69,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_04_194815) do
     t.integer "favorites_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "tables", force: :cascade do |t|
+    t.bigint "restaurant_id", null: false
+    t.integer "number"
+    t.integer "seats"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["restaurant_id"], name: "index_tables_on_restaurant_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -46,4 +99,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_04_194815) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "favorites", "restaurants"
+  add_foreign_key "favorites", "users"
+  add_foreign_key "follows", "restaurants"
+  add_foreign_key "follows", "users"
+  add_foreign_key "reservations", "restaurants"
+  add_foreign_key "reservations", "tables"
+  add_foreign_key "reservations", "users"
+  add_foreign_key "restaurant_hours", "restaurants"
+  add_foreign_key "tables", "restaurants"
 end
