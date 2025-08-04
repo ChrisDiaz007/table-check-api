@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  enum role: { customer: 0, owner: 1 }
+
   include Devise::JWT::RevocationStrategies::JTIMatcher
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
