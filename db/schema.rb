@@ -61,6 +61,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_04_204920) do
   create_table "restaurants", force: :cascade do |t|
     t.string "name", null: false
     t.string "address"
+    t.string "prefecture"
+    t.string "district"
     t.text "description"
     t.string "phone_number"
     t.string "website"
