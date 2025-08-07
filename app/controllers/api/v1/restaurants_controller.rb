@@ -20,12 +20,6 @@ class Api::V1::RestaurantsController < ApplicationController
     )
   end
 
-  # def show
-  #   @restaurant = Restaurant.find(params[:id])
-  #   render json: RestaurantSerializer.new(@restaurant).serializable_hash.to_json
-  # end
-
-
   def upload_photo
     restaurant = Restaurant.find(params[:restaurant_id])
 
