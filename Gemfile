@@ -48,5 +48,5 @@ end
 gem 'devise'
 gem 'devise-jwt'
 gem 'jsonapi-serializer'
-gem "dotenv-rails"
+gem 'dotenv-rails', groups: [:development, :test]
 gem "cloudinary"

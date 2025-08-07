@@ -11,13 +11,17 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json} do
     namespace :v1 do
-      resources :restaurants, only: [ :index, :show]
+      resources :restaurants, only: [ :index, :show] do
+        post :upload_photo #remove later
+      end
+
       resources :users, only: [ :index, :show ]
 
       devise_scope :user do
       post 'login', to: 'sessions#create'
       delete 'logout', to: 'sessions#destroy'
-    end
+      end
+
     end
   end
 
