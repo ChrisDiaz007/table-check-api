@@ -1,15 +1,20 @@
-class Users::SessionsController < Devise::SessionsController
+class Api::V1::SessionsController < Devise::SessionsController
   include RackSessionFix
   respond_to :json
 
   private
 
   def respond_with(resource, _opts = {})
+
+    token = request.env['warden-jwt_auth.token']
+    response.set_header('Authorization', "Bearer #{token}")
+
     render json: {
       status: {code: 200, message: 'Logged in successfully.'},
       data: UserSerializer.new(resource).serializable_hash[:data][:attributes]
     }, status: :ok
   end
+
   def respond_to_on_destroy
     if current_user
       render json: {

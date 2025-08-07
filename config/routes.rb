@@ -5,8 +5,8 @@ Rails.application.routes.draw do
     registration: 'signup'
   },
   controllers: {
-    sessions: 'users/sessions',
-    registrations: 'users/registrations'
+    sessions: 'api/v1/sessions',
+    registrations: 'api/v1/registrations'
   }
 
   namespace :api, defaults: { format: :json} do
