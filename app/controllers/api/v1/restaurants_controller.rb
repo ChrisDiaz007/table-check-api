@@ -11,7 +11,8 @@ class Api::V1::RestaurantsController < Api::V1::BaseController
 
     render json: @restaurants.map { |restaurant|
       restaurant.attributes.merge(
-        photo_url: restaurant.photo.attached? ? url_for(restaurant.photo) : nil
+        photo_url: restaurant.photo.attached? ? url_for(restaurant.photo) : nil,
+        cuisines: restaurant.cuisines.pluck(:name)
       )
     }
   end
@@ -20,7 +21,8 @@ class Api::V1::RestaurantsController < Api::V1::BaseController
     @restaurant = Restaurant.find(params[:id])
     authorize @restaurant
     render json: @restaurant.attributes.merge(
-      photo_url: @restaurant.photo.attached? ? url_for(@restaurant.photo) : nil
+      photo_url: @restaurant.photo.attached? ? url_for(@restaurant.photo) : nil,
+      cuisines: @restaurant.cuisines.pluck(:name)
     )
   end
 
@@ -76,7 +78,7 @@ class Api::V1::RestaurantsController < Api::V1::BaseController
 
   def restaurant_params
     params.require(:restaurant).permit(:name, :address, :prefecture, :district, :description,
-    :phone_number, :website, :total_tables, :about, :photo)
+    :phone_number, :website, :total_tables, :about, :photo, cuisine_ids: [])
   end
 
 end

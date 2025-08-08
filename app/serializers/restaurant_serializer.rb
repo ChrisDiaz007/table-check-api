@@ -7,6 +7,8 @@ class RestaurantSerializer
              :created_at, :updated_at, :user_id,
              :about, :lunch_price, :dinner_price
 
+  has_many :cuisines
+
   attribute :photo_url do |restaurant, params|
     if restaurant.photo.attached?
       Rails.application.routes.url_helpers.url_for(restaurant.photo)
