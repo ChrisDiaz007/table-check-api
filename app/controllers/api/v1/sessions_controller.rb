@@ -18,13 +18,14 @@ class Api::V1::SessionsController < Devise::SessionsController
       status: {code: 200, message: 'Logged in successfully.'},
       data: UserSerializer.new(resource).serializable_hash[:data][:attributes],
       access_token: token,
-      refresh_token: refresh_token
+      refresh_token: refresh_token,
+      refresh_token_expires_at: 7.days.from.now
     }, status: :ok
   end
 
   def respond_to_on_destroy
     if current_user
-      current_user.update(refresh_token: nil) # Clear refresh token on logout
+      current_user.update(refresh_token: nil) # Clears refresh token on logout
 
       render json: {
         status: 200,
