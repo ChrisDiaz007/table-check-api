@@ -18,4 +18,7 @@ class Restaurant < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :fans, through: :favorites, source: :user
 
+  # Cuisine
+  has_many :cuisines_restaurants, dependent: :destroy
+  has_many :cuisines, through: :cuisines_restaurants
 end
