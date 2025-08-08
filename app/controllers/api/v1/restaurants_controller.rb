@@ -63,7 +63,7 @@ class Api::V1::RestaurantsController < Api::V1::BaseController
 
   def upload_photo
     restaurant = Restaurant.find(params[:restaurant_id])
-
+    authorize restaurant
     if params[:photo].present?
       restaurant.photo.attach(params[:photo])
       render json: { message: "Photo uploaded successfully", url: url_for(restaurant.photo) }, status: :ok

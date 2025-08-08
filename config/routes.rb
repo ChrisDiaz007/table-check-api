@@ -17,10 +17,10 @@ Rails.application.routes.draw do
 
       resources :users, only: [ :index, :show ]
 
-      devise_scope :user do
-      post 'login', to: 'sessions#create'
-      delete 'logout', to: 'sessions#destroy'
-      end
+      # devise_scope :user do
+      # post 'login', to: 'sessions#create'
+      # delete 'logout', to: 'sessions#destroy'
+      # end
 
     end
   end

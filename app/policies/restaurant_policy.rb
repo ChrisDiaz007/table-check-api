@@ -34,4 +34,8 @@ class RestaurantPolicy < ApplicationPolicy
     return admin? || record.user == user
   end
 
+  def upload_photo?
+    return true
+  end
+
 end
