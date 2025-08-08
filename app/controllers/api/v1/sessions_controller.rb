@@ -6,8 +6,8 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   def respond_with(resource, _opts = {})
 
-    token = request.env['warden-jwt_auth.token']
-    response.set_header('Authorization', "Bearer #{token}")
+    token = request.env['warden-jwt_auth.token'] # This is for front end
+    response.set_header('Authorization', "Bearer #{token}") # for front end
 
     render json: {
       status: {code: 200, message: 'Logged in successfully.'},
