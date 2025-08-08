@@ -20,6 +20,19 @@ class Api::V1::RestaurantsController < ApplicationController
     )
   end
 
+  def new
+    @restaurant = Restaurant.new
+  end
+
+  def create
+    @restaurant = Restaurant.new(restaurant_params)
+    if @restaurant.save
+      render json: @restaurant, status: :created
+    else
+      render json: { errors: @restaurant.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   def upload_photo
     restaurant = Restaurant.find(params[:restaurant_id])
 
@@ -29,6 +42,13 @@ class Api::V1::RestaurantsController < ApplicationController
     else
       render json: { error: "No photo attached" }, status: :unprocessable_entity
     end
+  end
+
+  private
+
+  def restaurant_params
+    params.require(:restaurant).permit(:name, :address, :prefecture, :district, :description,
+    :phone_number, :website, :total_tables, :about, :photo)
   end
 
 end
