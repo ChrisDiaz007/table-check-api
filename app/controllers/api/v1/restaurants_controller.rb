@@ -1,11 +1,14 @@
-class Api::V1::RestaurantsController < ApplicationController
+class Api::V1::RestaurantsController < Api::V1::BaseController
 
   def index
+    @restaurants = policy_scope(Restaurant).all
+
     if params[:name].present?
       @restaurants = Restaurant.where('name ILIKE ?', "%#{params[:name]}%")
     else
-      @restaurants = Restaurant.all
+    @restaurants = Restaurant.all
     end
+
     render json: @restaurants.map { |restaurant|
       restaurant.attributes.merge(
         photo_url: restaurant.photo.attached? ? url_for(restaurant.photo) : nil
@@ -15,6 +18,7 @@ class Api::V1::RestaurantsController < ApplicationController
 
   def show
     @restaurant = Restaurant.find(params[:id])
+    authorize @restaurant
     render json: @restaurant.attributes.merge(
       photo_url: @restaurant.photo.attached? ? url_for(@restaurant.photo) : nil
     )
@@ -22,15 +26,39 @@ class Api::V1::RestaurantsController < ApplicationController
 
   def new
     @restaurant = Restaurant.new
+    authorize @restaurant
   end
 
   def create
     @restaurant = Restaurant.new(restaurant_params)
+    @restaurant.user = current_user
+    authorize @restaurant
     if @restaurant.save
       render json: @restaurant, status: :created
     else
       render json: { errors: @restaurant.errors.full_messages }, status: :unprocessable_entity
     end
+  end
+
+  def edit
+    @restaurant = Restaurant.find(params[:id])
+    authorize @restaurant
+  end
+
+  def update
+    @restaurant = Restaurant.find(params[:id])
+    authorize @restaurant
+    if @restaurant.update(restaurant_params)
+      render json: @restaurant, status: :updated
+    else
+      render json: { errors: @restaurant.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @restaurant = Restaurant.find(params[:id])
+    authorize @restaurant
+    @restaurant.destroy
   end
 
   def upload_photo
