@@ -10,7 +10,8 @@ class Api::V1::RestaurantsController < Api::V1::BaseController
     @restaurants = Restaurant.all
     end
 
-    render json: RestaurantSerializer.new(@restaurants)
+    Rails.application.routes.default_url_options[:host] = request.base_url
+    render json: RestaurantSerializer.new(@restaurants, { params: { host: request.base_url } })
     # Old version before Serializing to JSON:API response 👇
     # render json: @restaurants.map { |restaurant|
     #   restaurant.attributes.merge(
@@ -24,7 +25,8 @@ class Api::V1::RestaurantsController < Api::V1::BaseController
     @restaurant = Restaurant.find(params[:id])
     authorize @restaurant
 
-    render json: RestaurantSerializer.new(@restaurant)
+    Rails.application.routes.default_url_options[:host] = request.base_url
+    render json: RestaurantSerializer.new(@restaurant, { params: { host: request.base_url } })
     # Old version before Serializing to JSON:API response 👇
     # render json: @restaurant.attributes.merge(
     #   photo_url: @restaurant.photo.attached? ? url_for(@restaurant.photo) : nil,
