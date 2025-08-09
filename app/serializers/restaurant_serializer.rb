@@ -7,7 +7,10 @@ class RestaurantSerializer
              :created_at, :updated_at, :user_id,
              :about, :lunch_price, :dinner_price
 
-  has_many :cuisines
+  # Converts JSON:API response for cuisines to regular array
+  attribute :cuisines do |restaurant|
+    restaurant.cuisines.map(&:name)
+  end
 
   attribute :photo_url do |restaurant, params|
     if restaurant.photo.attached?
