@@ -6,14 +6,14 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   def respond_with(resource, _opts = {})
 
-    token = request.env['warden-jwt_auth.token'] # JWT access token from devise-jwt for front end
+  # Generate a new refresh token and save it
+  refresh_token = SecureRandom.hex(32)
+  resource.update(refresh_token: refresh_token,
+  refresh_token_expires_at: 7.days.from_now)
 
-    # Generate a new refresh token and save it
-    refresh_token = SecureRandom.hex(32)
-    resource.update(refresh_token: refresh_token,
-    refresh_token_expires_at: 7.days.from_now)
+  token = request.env['warden-jwt_auth.token'] # Devise-jwt issues this access token
 
-    response.set_header('Authorization', "Bearer #{token}") # Set access token in header for front end
+  response.set_header('Authorization', "Bearer #{token}") # Set access token in header for front end, might not need.
 
     render json: {
       status: {code: 200, message: 'Logged in successfully.'},

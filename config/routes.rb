@@ -12,10 +12,12 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json} do
     namespace :v1 do
       resources :restaurants do
-        post :upload_photo #remove later
+        post :upload_photo # used for curl in bash, remove later
       end
 
       resources :users, only: [ :index, :show ]
+
+      post 'refresh_token', to: 'tokens#refresh_token'
 
       # devise_scope :user do
       # post 'login', to: 'sessions#create'

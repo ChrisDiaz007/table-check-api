@@ -1,3 +1,5 @@
+# This file is temporarily not being used, will leave here for future reference.
+
 require 'jwt'
 
 class JsonWebToken
