@@ -319,6 +319,6 @@ Devise.setup do |config|
     jwt.revocation_requests = [
       ['DELETE', %r{^/api/v1/logout$}]
     ]
-    jwt.expiration_time = 30.minutes.to_i # Access jwt token lifetime
+    jwt.expiration_time = 15.minutes.to_i # JWT Access token lifetime
   end
 end
