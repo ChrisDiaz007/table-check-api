@@ -11,8 +11,7 @@ class Api::V1::RestaurantsController < Api::V1::BaseController
     end
 
     render json: RestaurantSerializer.new(@restaurants)
-
-    # Old version before Serializing to JSON:API response 👆
+    # Old version before Serializing to JSON:API response 👇
     # render json: @restaurants.map { |restaurant|
     #   restaurant.attributes.merge(
     #     photo_url: restaurant.photo.attached? ? url_for(restaurant.photo) : nil,
@@ -26,7 +25,7 @@ class Api::V1::RestaurantsController < Api::V1::BaseController
     authorize @restaurant
 
     render json: RestaurantSerializer.new(@restaurant)
-    # Old version before Serializing to JSON:API response 👆
+    # Old version before Serializing to JSON:API response 👇
     # render json: @restaurant.attributes.merge(
     #   photo_url: @restaurant.photo.attached? ? url_for(@restaurant.photo) : nil,
     #   cuisines: @restaurant.cuisines.pluck(:name)
