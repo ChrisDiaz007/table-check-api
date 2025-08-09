@@ -1,21 +1,38 @@
 class Api::V1::TokensController < Api::V1::BaseController
+  include ActionController::Cookies
+
   skip_before_action :authenticate_user!, only: [:refresh_token]
   skip_after_action :verify_authorized
   skip_after_action :verify_policy_scoped
 
   def refresh_token
-    refresh_token = request.headers['Refresh-Token'] || request.headers['HTTP_REFRESH_TOKEN']
-    user = User.find_by(refresh_token: refresh_token)
+    # Read from signed HttpOnly cookie (set at login)
+    current_refresh = cookies.signed[:refresh_token]
+    return render json: { error: 'Missing refresh token' }, status: :unauthorized if current_refresh.blank?
 
-    if user && user.refresh_token_expires_at && user.refresh_token_expires_at > Time.current
-      new_refresh_token = SecureRandom.hex(32)
-      user.update!(refresh_token: new_refresh_token, refresh_token_expires_at: 7.days.from_now)
-
-      access_token = Warden::JWTAuth::UserEncoder.new.call(user, :user, nil).first
-
-      render json: { access_token: access_token, refresh_token: new_refresh_token, refresh_token_expires_at: user.refresh_token_expires_at }, status: :ok
-    else
-      render json: { error: 'Invalid or expired refresh token' }, status: :unauthorized
+    user = User.find_by(refresh_token: current_refresh)
+    unless user && user.refresh_token_expires_at&.future?
+      return render json: { error: 'Invalid or expired refresh token' }, status: :unauthorized
     end
+
+    # Rotate refresh token
+    new_refresh = SecureRandom.hex(32)
+    new_expiry  = 7.days.from_now
+    user.update!(refresh_token: new_refresh, refresh_token_expires_at: new_expiry)
+
+    # Reset the HttpOnly cookie with the rotated token
+    cookies.signed[:refresh_token] = {
+      value: new_refresh,
+      httponly: true,
+      secure: Rails.env.production?,
+      same_site: :lax,
+      expires: new_expiry
+    }
+
+    # Issue a new access token (JWT)
+    new_access = Warden::JWTAuth::UserEncoder.new.call(user, :user, nil).first
+
+    # Return ONLY the access token (keep refresh token hidden)
+    render json: { access_token: new_access }, status: :ok
   end
 end
