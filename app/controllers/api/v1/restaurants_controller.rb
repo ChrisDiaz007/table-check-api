@@ -54,7 +54,7 @@ class Api::V1::RestaurantsController < Api::V1::BaseController
     @restaurant.user = current_user
     authorize @restaurant
     if @restaurant.save
-      render json: @restaurant, status: :created
+      render json: RestaurantSerializer.new(@restaurant, { params: { host: request.base_url } })
     else
       render json: { errors: @restaurant.errors.full_messages }, status: :unprocessable_entity
     end

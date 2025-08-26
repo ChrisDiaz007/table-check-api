@@ -5,7 +5,7 @@ class RestaurantSerializer
              :description, :phone_number, :website,
              :total_tables, :followers_count, :favorites_count,
              :created_at, :updated_at, :user_id,
-             :about, :lunch_price, :dinner_price
+             :about, :lunch_price, :dinner_price, :latitude, :longitude
 
   # Converts JSON:API response for cuisines to regular array
   attribute :cuisines do |restaurant|
