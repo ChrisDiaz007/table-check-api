@@ -2,7 +2,7 @@ class Api::V1::RestaurantsController < Api::V1::BaseController
   skip_before_action :authenticate_user!, only: [ :index, :show ]
 
   def index
-    @restaurants = policy_scope(Restaurant).all
+    @restaurants = policy_scope(Restaurant)
 
     if params[:name].present?
       @restaurants = Restaurant.where('name ILIKE ?', "%#{params[:name]}%")
@@ -32,6 +32,16 @@ class Api::V1::RestaurantsController < Api::V1::BaseController
     #   photo_url: @restaurant.photo.attached? ? url_for(@restaurant.photo) : nil,
     #   cuisines: @restaurant.cuisines.pluck(:name)
     # )
+
+    @markers =
+    if @restaurant.geocoded?
+      [{
+        lat: @restaurant.latitude,
+        lng: @restaurant.longitude,
+      }]
+    else
+      []
+    end
   end
 
   def new

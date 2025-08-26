@@ -21,4 +21,7 @@ class Restaurant < ApplicationRecord
   # Cuisine
   has_many :cuisines_restaurants, dependent: :destroy
   has_many :cuisines, through: :cuisines_restaurants
+
+  geocoded_by :address
+  after_validation :geocode, if: :will_save_change_to_address?
 end
