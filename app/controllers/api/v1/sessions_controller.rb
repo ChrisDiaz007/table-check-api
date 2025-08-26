@@ -18,8 +18,8 @@ class Api::V1::SessionsController < Devise::SessionsController
     cookies.signed[:refresh_token] = {
       value: refresh_token,
       httponly: true,
-      secure: Rails.env.production?,
-      same_site: :lax,
+      secure: true,
+      same_site: :none,
       expires: 7.days.from_now
     }
 

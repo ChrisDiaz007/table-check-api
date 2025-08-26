@@ -24,8 +24,8 @@ class Api::V1::TokensController < Api::V1::BaseController
     cookies.signed[:refresh_token] = {
       value: new_refresh,
       httponly: true,
-      secure: Rails.env.production?,
-      same_site: :lax,
+      secure: true,
+      same_site: :none,
       expires: new_expiry
     }
 

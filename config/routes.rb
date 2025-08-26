@@ -19,10 +19,7 @@ Rails.application.routes.draw do
 
       post 'refresh_token', to: 'tokens#refresh_token'
 
-      # devise_scope :user do
-      # post 'login', to: 'sessions#create'
-      # delete 'logout', to: 'sessions#destroy'
-      # end
+      # get "me", to: "users#me"
 
     end
   end
