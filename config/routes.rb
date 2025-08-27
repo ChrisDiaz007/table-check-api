@@ -15,7 +15,11 @@ Rails.application.routes.draw do
         post :upload_photo # used for curl in bash, remove later
       end
 
-      resources :users, only: [ :index, :show ]
+      resources :users, only: [ :index, :show ] do
+        member do
+          get :restaurants
+        end
+      end
 
       post 'refresh_token', to: 'tokens#refresh_token'
 

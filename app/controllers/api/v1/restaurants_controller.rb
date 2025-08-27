@@ -96,7 +96,7 @@ class Api::V1::RestaurantsController < Api::V1::BaseController
 
   def restaurant_params
     params.require(:restaurant).permit(:name, :address, :prefecture, :district, :description,
-    :phone_number, :website, :total_tables, :about, :photo, cuisine_ids: [])
+    :phone_number, :website, :total_tables, :about, :lunch_price, :dinner_price, :photo, cuisine_ids: [])
   end
 
 end

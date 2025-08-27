@@ -1,6 +1,8 @@
 class Restaurant < ApplicationRecord
   has_one_attached :photo
 
+  belongs_to :user
+
   # Tables
   has_many :tables, dependent: :destroy
 

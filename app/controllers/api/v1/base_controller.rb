@@ -1,5 +1,5 @@
 class Api::V1::BaseController < ActionController::API
-  include Pundit
+  include Pundit::Authorization
 
   before_action :authenticate_user!  # Protect all routes, requires valid JWT token
 

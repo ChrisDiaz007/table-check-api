@@ -7,7 +7,10 @@ class UserPolicy < ApplicationPolicy
   end
 
   def show?
-    # return true
     return user.admin? || record == user
+  end
+
+  def restaurants?
+    return true
   end
 end
