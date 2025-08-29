@@ -15,7 +15,7 @@ Rails.application.routes.draw do
         post :upload_photo # used for curl in bash, remove later
       end
 
-      resources :users, only: [ :index, :show ] do
+      resources :users, only: [ :index, :show, :update ] do
         member do
           get :restaurants
         end

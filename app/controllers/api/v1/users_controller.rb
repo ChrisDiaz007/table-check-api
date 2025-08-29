@@ -16,4 +16,20 @@ class Api::V1::UsersController < Api::V1::BaseController
     render json: RestaurantSerializer.new(@restaurants, { params: { host: request.base_url } })
   end
 
+  def update
+    @user = User.find(params[:id])
+    authorize @user
+    if @user.update(user_params)
+      render json: UserSerializer.new(@user)
+    else
+      render json: { errors: @user.errors.full_message }, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:first_name, :last_name)
+  end
+
 end
