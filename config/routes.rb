@@ -11,9 +11,8 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json} do
     namespace :v1 do
-      resources :restaurants do
-        post :upload_photo # used for curl in bash, remove later
-      end
+
+      resources :restaurants
 
       resources :users, only: [ :index, :show, :update ] do
         member do
@@ -22,8 +21,6 @@ Rails.application.routes.draw do
       end
 
       post 'refresh_token', to: 'tokens#refresh_token'
-
-      # get "me", to: "users#me"
 
     end
   end

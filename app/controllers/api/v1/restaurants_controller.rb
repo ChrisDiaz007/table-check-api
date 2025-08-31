@@ -81,17 +81,6 @@ class Api::V1::RestaurantsController < Api::V1::BaseController
     @restaurant.destroy
   end
 
-  def upload_photo
-    restaurant = Restaurant.find(params[:restaurant_id])
-    authorize restaurant
-    if params[:photo].present?
-      restaurant.photo.attach(params[:photo])
-      render json: { message: "Photo uploaded successfully", url: url_for(restaurant.photo) }, status: :ok
-    else
-      render json: { error: "No photo attached" }, status: :unprocessable_entity
-    end
-  end
-
   private
 
   def restaurant_params
