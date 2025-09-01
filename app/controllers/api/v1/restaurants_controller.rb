@@ -69,7 +69,7 @@ class Api::V1::RestaurantsController < Api::V1::BaseController
     @restaurant = Restaurant.find(params[:id])
     authorize @restaurant
     if @restaurant.update(restaurant_params)
-      render json: @restaurant, status: :updated
+      render json: RestaurantSerializer.new(@restaurant, { params: { host: request.base_url } })
     else
       render json: { errors: @restaurant.errors.full_messages }, status: :unprocessable_entity
     end
@@ -78,7 +78,9 @@ class Api::V1::RestaurantsController < Api::V1::BaseController
   def destroy
     @restaurant = Restaurant.find(params[:id])
     authorize @restaurant
+    # Delete the attached file in the background
     @restaurant.destroy
+    head :no_content
   end
 
   private

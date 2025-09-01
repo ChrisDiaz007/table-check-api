@@ -19,11 +19,7 @@ class RestaurantPolicy < ApplicationPolicy
   end
 
   def create?
-    return user.present? && (user.admin? || user.owner?)
-  end
-
-  def edit?
-    return update?
+    return user.present? && user.owner?
   end
 
   def update?
