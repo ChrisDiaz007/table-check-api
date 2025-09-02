@@ -22,6 +22,8 @@ Rails.application.routes.draw do
 
       resources :cuisines, only: [ :index ]
 
+      resources :reservations, only: [ :index, :show, :create, :destroy ]
+
       post 'refresh_token', to: 'tokens#refresh_token'
 
     end
