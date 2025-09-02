@@ -7,8 +7,10 @@ class Api::V1::TablesController < ApplicationController
   end
 
   def create
+    @restaurant = Restaurant.find(params[:restaurant_id])
     @table = Table.new(table_params)
-    @table.user = current_user
+    @table.restaurant = @restaurant
+
     # authorize @table
     if @table.save
       render json: @table, status: :created
