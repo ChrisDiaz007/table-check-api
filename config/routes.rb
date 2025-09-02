@@ -12,7 +12,9 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json} do
     namespace :v1 do
 
-      resources :restaurants
+      resources :restaurants do
+        resources :reservations, only: [:index, :show, :create]
+      end
 
       resources :users, only: [ :index, :show, :update ] do
         member do
@@ -22,7 +24,7 @@ Rails.application.routes.draw do
 
       resources :cuisines, only: [ :index ]
 
-      resources :reservations, only: [ :index, :show, :create, :destroy ]
+
 
       post 'refresh_token', to: 'tokens#refresh_token'
 

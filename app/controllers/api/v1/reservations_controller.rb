@@ -7,7 +7,9 @@ class Api::V1::ReservationsController < ApplicationController
   end
 
   def show
-    @reservation = Restaurant.find(params[:id])
+    @restaurant = Restaurant.find(params[:id])
+    @reservation = @restaurant.reservations
+    render json: @reservation
   end
 
   def create
