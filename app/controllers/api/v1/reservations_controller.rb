@@ -22,16 +22,15 @@ class Api::V1::ReservationsController < ApplicationController
     if reservation_params[:table_id].present?
       @reservation.table = @restaurant.tables.find(reservation_params[:table_id])
     else
-      # (Optional) auto-assign any table; you can add real availability logic later
       @reservation.table = @restaurant.tables.first
     end
 
     # authorize @reservation
 
     if @reservation.save
-      render json: @reservation
+      render json: @reservation, status: :created
     else
-      render json: { errors: @reservation.errors.full_message }, status: :unprocessable_entity
+      render json: { errors: @reservation.errors.full_messages }, status: :unprocessable_entity
     end
 
   end

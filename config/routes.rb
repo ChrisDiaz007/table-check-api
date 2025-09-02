@@ -13,7 +13,8 @@ Rails.application.routes.draw do
     namespace :v1 do
 
       resources :restaurants do
-        resources :reservations, only: [:index, :show, :create]
+        resources :reservations, only: [ :index, :show, :create ]
+        resources :tables, only: [ :index, :create, :update, :destroy ]
       end
 
       resources :users, only: [ :index, :show, :update ] do
