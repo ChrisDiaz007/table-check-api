@@ -16,6 +16,10 @@ class Api::V1::UsersController < Api::V1::BaseController
     render json: RestaurantSerializer.new(@restaurants, { params: { host: request.base_url } })
   end
 
+  def tables
+
+  end
+
   def update
     @user = User.find(params[:id])
     authorize @user

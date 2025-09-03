@@ -19,11 +19,11 @@ class Api::V1::ReservationsController < ApplicationController
     @reservation.user = current_user
 
     # If you want to choose a specific table from the client
-    if reservation_params[:table_id].present?
-      @reservation.table = @restaurant.tables.find(reservation_params[:table_id])
-    else
-      @reservation.table = @restaurant.tables.first
-    end
+    # if reservation_params[:table_id].present?
+    #   @reservation.table = @restaurant.tables.find(reservation_params[:table_id])
+    # else
+    #   @reservation.table = @restaurant.tables.first
+    # end
 
     # authorize @reservation
 

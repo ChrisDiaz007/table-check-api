@@ -2,7 +2,8 @@ class Api::V1::TablesController < ApplicationController
   # before_action :set_restaurant
 
   def index
-    @tables = Table.all
+    @restaurant = Restaurant.find(params[:restaurant_id])
+    @tables = @restaurant.tables
     render json: @tables
   end
 
