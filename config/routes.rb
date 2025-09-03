@@ -15,11 +15,12 @@ Rails.application.routes.draw do
       resources :restaurants do
         resources :reservations, only: [ :index, :show, :create ]
         resources :tables, only: [ :index, :create, :update, :destroy ]
+        resources :restaurant_hours, only: [ :index, :create, :update, :destroy]
       end
 
       resources :users, only: [ :index, :show, :update ] do
         member do
-          get :restaurants, :tables
+          get :restaurants, :table
         end
       end
 
