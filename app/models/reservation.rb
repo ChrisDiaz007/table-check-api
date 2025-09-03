@@ -6,7 +6,7 @@ class Reservation < ApplicationRecord
   enum status: { pending: "pending", accepted: "accepted", rejected: "rejected" ,cancelled: "cancelled" }
 
   validates :party_size, numericality: { only_integer: true, greater_than: 0}
-  validates :reservation_time, :party_size, presence: :true
+  validates :reservation_time, :party_size, presence: true
 
   # Block any second reservation at the same exact time for this restaurant
   validates :reservation_time, uniqueness: {

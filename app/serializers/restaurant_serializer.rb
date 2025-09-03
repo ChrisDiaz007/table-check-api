@@ -5,7 +5,26 @@ class RestaurantSerializer
              :description, :phone_number, :website,
              :total_tables, :followers_count, :favorites_count,
              :created_at, :updated_at, :user_id,
-             :about, :lunch_price, :dinner_price, :latitude, :longitude, :tables
+             :about, :lunch_price, :dinner_price, :latitude, :longitude
+
+  attribute :tables do |restaurant|
+    restaurant.tables.map do |table|
+      {
+        number: table.number,
+        seats: table.seats,
+      }
+    end
+  end
+
+  attribute :restaurant_hours do |restaurant|
+    restaurant.restaurant_hours.map do |hour|
+      {
+        day_of_week: hour.day_of_week,
+        opens_at: hour.opens_at.strftime("%H:%M"),
+        closes_at: hour.closes_at.strftime("%H:%M")
+      }
+    end
+  end
 
   # Converts JSON:API response for cuisines to regular array
   attribute :cuisines do |restaurant|
