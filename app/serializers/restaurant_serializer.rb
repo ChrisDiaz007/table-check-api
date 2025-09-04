@@ -20,8 +20,8 @@ class RestaurantSerializer
     restaurant.restaurant_hours.map do |hour|
       {
         day_of_week: hour.day_of_week,
-        opens_at: hour.opens_at.strftime("%H:%M"),
-        closes_at: hour.closes_at.strftime("%H:%M")
+        opens_at: hour.opens_at.strftime("%I:%M %p"),
+        closes_at: hour.closes_at.strftime("%I:%M %p")
       }
     end
   end
