@@ -3,8 +3,8 @@ class Api::V1::TablesController < ApplicationController
 
   def index
     @restaurant = Restaurant.find(params[:restaurant_id])
-    @tables = @restaurant.tables
-    render json: @tables.order(number: :asc)
+    @tables = @restaurant.tables.order(:number)
+    render json: TableSerializer.new(@tables)
   end
 
   def create
