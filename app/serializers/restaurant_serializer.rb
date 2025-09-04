@@ -8,7 +8,7 @@ class RestaurantSerializer
              :about, :lunch_price, :dinner_price, :latitude, :longitude
 
   attribute :tables do |restaurant|
-    restaurant.tables.map do |table|
+    restaurant.tables.order(number: :asc).map do |table|
       {
         number: table.number,
         seats: table.seats,

@@ -4,7 +4,7 @@ class Api::V1::TablesController < ApplicationController
   def index
     @restaurant = Restaurant.find(params[:restaurant_id])
     @tables = @restaurant.tables
-    render json: @tables
+    render json: @tables.order(number: :asc)
   end
 
   def create
@@ -18,7 +18,17 @@ class Api::V1::TablesController < ApplicationController
     else
       render json: { errors: @table.errors.full_messages }, status: :unprocessable_entity
     end
+  end
 
+  def update
+    @restaurant = Restaurant.find(params[:restaurant_id])
+    @tables = @restaurant.tables.find(params[:id])
+    # authorize @restaurant
+    if @tables.update(table_params)
+      render json: @tables
+    else
+      render json: { errors: @tables.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   private
