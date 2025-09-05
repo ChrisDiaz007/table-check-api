@@ -15,7 +15,21 @@ class Api::V1::RestaurantHoursController < ApplicationController
   end
 
   def create
+    @restaurant = Restaurant.find(params[:restaurant_id])
+    @restaurant_hour = RestaurantHour.new(restaurant_hour_params)
+    @restaurant_hour.restaurant = @restaurant
 
+    if @restaurant_hour.save
+      render json: @restaurant_hour, status: :created
+    else
+      rended json: { errors: @restaurant_hour.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def restaurant_hour_params
+    params.require(:restaurant_hour).permit(:day_of_week, :opens_at, :closes_at)
   end
 
 end
