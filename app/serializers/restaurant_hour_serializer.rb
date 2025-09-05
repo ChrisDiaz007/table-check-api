@@ -1,6 +1,6 @@
 class RestaurantHourSerializer
   include JSONAPI::Serializer
-  attributes :id
+  attributes :id, :day_of_week
 
   attribute :user_id do |restaurant_hour|
     restaurant_hour.restaurant.user_id
@@ -8,10 +8,6 @@ class RestaurantHourSerializer
 
   attribute :restaurant_id do |restaurant_hour|
     restaurant_hour.restaurant_id
-  end
-
-  attribute :day_of_week do |restaurant_hour|
-    Date::DAYNAMES[restaurant_hour.day_of_week]
   end
 
   attribute :opens_at do |restaurant_hour|

@@ -10,6 +10,7 @@ class RestaurantSerializer
   attribute :tables do |restaurant|
     restaurant.tables.order(number: :asc).map do |table|
       {
+        id: table.id,
         number: table.number,
         seats: table.seats,
       }
@@ -17,11 +18,12 @@ class RestaurantSerializer
   end
 
   attribute :restaurant_hours do |restaurant|
-    restaurant.restaurant_hours.map do |hour|
+    restaurant.restaurant_hours.order(day_of_week: :asc).map do |hour|
       {
+        id: hour.id,
         day_of_week: Date::DAYNAMES[hour.day_of_week],
-        opens_at: hour.opens_at.strftime("%I:%M %p"),
-        closes_at: hour.closes_at.strftime("%I:%M %p")
+        opens_at: hour.opens_at.strftime("%H:%M"),
+        closes_at: hour.closes_at.strftime("%H:%M")
       }
     end
   end

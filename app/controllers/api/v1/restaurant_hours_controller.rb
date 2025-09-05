@@ -2,8 +2,7 @@ class Api::V1::RestaurantHoursController < ApplicationController
 
   def index
     @restaurant = Restaurant.find(params[:restaurant_id])
-    @restaurant_hours = @restaurant.restaurant_hours
-    # render json: @restaurant_hours.as_json(only: [:id, :day_of_week, :opens_at, :closes_at])
+    @restaurant_hours = @restaurant.restaurant_hours.order(:day_of_week)
     render json: RestaurantHourSerializer.new(@restaurant_hours)
   end
 
@@ -16,6 +15,17 @@ class Api::V1::RestaurantHoursController < ApplicationController
       render json: @restaurant_hour, status: :created
     else
       rended json: { errors: @restaurant_hour.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    @restaurant = Restaurant.find(params[:restaurant_id])
+    @restaurant_hour = @restaurant.restaurant_hours.find(params[:id])
+    # authorize @restaurant
+    if @restaurant_hour.update(restaurant_hour_params)
+      render json: @restaurant_hour
+    else
+      render json: { errors: @restaurant_hour.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
