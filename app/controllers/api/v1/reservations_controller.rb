@@ -1,11 +1,11 @@
 class Api::V1::ReservationsController < ApplicationController
   # before_action :authenticate_user!
 
-  # def index
-  #   @restaurant = Restaurant.find(params[:restaurant_id])
-  #   @reservations = @restaurant.reservations
-  #   render json: ReservationSerializer.new(@reservations)
-  # end
+  def index
+    @restaurant = Restaurant.find(params[:restaurant_id])
+    @reservations = @restaurant.reservations.order(reservation_time: :asc)
+    render json: ReservationSerializer.new(@reservations)
+  end
 
   # def show
   #   @restaurant = Restaurant.find(params[:restaurant_id])
@@ -25,6 +25,17 @@ class Api::V1::ReservationsController < ApplicationController
       render json: @reservation, status: :created
     else
       render json: { errors: @reservation.errors.full_messages }, status: :unprocessable_content
+    end
+  end
+
+  def update
+    @restaurant = Restaurant.find(params[:restaurant_id])
+    @reservation = @restaurant.reservations.find(params[:id])
+    # authorize @restaurant
+    if @reservation.update(reservation_params)
+      render json: @reservation
+    else
+      render json: { errors: @tables.errors.full_messages }, status: :unprocessable_entity
     end
   end
 

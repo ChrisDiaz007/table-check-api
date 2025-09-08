@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     namespace :v1 do
 
       resources :restaurants do
-        resources :reservations, only: [ :index, :show, :create ]
+        resources :reservations, only: [ :index, :show, :create, :update ]
         resources :tables, only: [ :index, :create, :update, :destroy ]
         resources :restaurant_hours, only: [ :index, :create, :update, :destroy]
       end
@@ -25,8 +25,6 @@ Rails.application.routes.draw do
       end
 
       resources :cuisines, only: [ :index ]
-
-
 
       post 'refresh_token', to: 'tokens#refresh_token'
 

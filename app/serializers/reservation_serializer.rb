@@ -2,8 +2,12 @@ class ReservationSerializer
   include JSONAPI::Serializer
   attributes :id, :status, :table_id
 
-  attribute :reservation_time do |reservation|
+  attribute :reservation_date do |reservation|
     reservation.reservation_time.strftime("%Y-%m-%d %A")
+  end
+
+  attribute :reservation_time do |reservation|
+    reservation.reservation_time.strftime("%H:%M")
   end
 
   attribute :user do |reservation|

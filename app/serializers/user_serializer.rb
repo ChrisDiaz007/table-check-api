@@ -17,6 +17,21 @@ class UserSerializer
     end
   end
 
+  attribute :restaurants do |user|
+    user.restaurants.map do |restaurant|
+      {
+        id: restaurant.id,
+        restaurant_name: restaurant.name,
+
+        reservations: restaurant.reservations.map do |reservation|
+          {
+            id: reservation.id
+          }
+        end
+      }
+    end
+  end
+
   attribute :created_date do |user|
     user.created_at && user.created_at.strftime('%m/%d/%Y')
   end
