@@ -14,6 +14,10 @@ class UserPolicy < ApplicationPolicy
     return true
   end
 
+  def reservations?
+    return true
+  end
+
   def update?
     return record == user
   end

@@ -1,9 +1,8 @@
 class UserSerializer
   include JSONAPI::Serializer
-  attributes :id, :first_name, :last_name, :phone_number, :role, :admin, :email,
-  :created_at
+  attributes :id, :first_name, :last_name, :phone_number, :role, :admin, :email
 
-  attribute :reservations do |user|
+  attribute :bookings do |user|
     user.reservations.map do |reservation|
       {
         id: reservation.id,
@@ -16,7 +15,6 @@ class UserSerializer
         restaurant_photo: reservation.restaurant&.photo.url
       }
     end
-
   end
 
   attribute :created_date do |user|

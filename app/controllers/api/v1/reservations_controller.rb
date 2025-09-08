@@ -1,17 +1,17 @@
 class Api::V1::ReservationsController < ApplicationController
   # before_action :authenticate_user!
 
-  def index
-    @restaurant = Restaurant.find(params[:restaurant_id])
-    @reservations = @restaurant.reservations
-    render json: ReservationSerializer.new(@reservations)
-  end
+  # def index
+  #   @restaurant = Restaurant.find(params[:restaurant_id])
+  #   @reservations = @restaurant.reservations
+  #   render json: ReservationSerializer.new(@reservations)
+  # end
 
-  def show
-    @restaurant = Restaurant.find(params[:restaurant_id])
-    @reservation = @restaurant.reservations.find(params[:id])
-    render json: @reservation
-  end
+  # def show
+  #   @restaurant = Restaurant.find(params[:restaurant_id])
+  #   @reservation = @restaurant.reservations.find(params[:id])
+  #   render json: @reservation
+  # end
 
   def create
     @restaurant = Restaurant.find(params[:restaurant_id])

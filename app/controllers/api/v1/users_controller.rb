@@ -1,5 +1,5 @@
 class Api::V1::UsersController < Api::V1::BaseController
-  skip_before_action :authenticate_user!, only: [ :restaurants ]
+  skip_before_action :authenticate_user!, only: [ :restaurants, :reservations ]
 
   def show
     @user = User.find(params[:id])
@@ -16,8 +16,12 @@ class Api::V1::UsersController < Api::V1::BaseController
     render json: RestaurantSerializer.new(@restaurants, { params: { host: request.base_url } })
   end
 
-  def tables
+  def reservations
+    @user = User.find(params[:id])
+    authorize @user
+    @reservations = @user.reservations
 
+    render json: ReservationSerializer.new(@reservations)
   end
 
   def update
