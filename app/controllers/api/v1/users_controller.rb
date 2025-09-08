@@ -11,9 +11,9 @@ class Api::V1::UsersController < Api::V1::BaseController
     @user = User.find(params[:id])
     authorize @user
     @restaurants = @user.restaurants
-
-    Rails.application.routes.default_url_options[:host] = request.base_url
-    render json: RestaurantSerializer.new(@restaurants, { params: { host: request.base_url } })
+    render json: RestaurantSerializer.new(@restaurants)
+    # Rails.application.routes.default_url_options[:host] = request.base_url
+    # render json: RestaurantSerializer.new(@restaurants, { params: { host: request.base_url } })
   end
 
   def reservations

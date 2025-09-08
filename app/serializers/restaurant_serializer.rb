@@ -33,11 +33,17 @@ class RestaurantSerializer
     restaurant.cuisines.map(&:name)
   end
 
-  attribute :photo_url do |restaurant, params|
-    if restaurant.photo.attached?
-      Rails.application.routes.url_helpers.url_for(restaurant.photo)
-    else
-      nil
-    end
+
+  attribute :photo_url do |restaurant|
+    restaurant&.photo.url
   end
+
+  # attribute :photo_url do |restaurant, params|
+  #   if restaurant.photo.attached?
+  #     Rails.application.routes.url_helpers.url_for(restaurant.photo)
+  #   else
+  #     nil
+  #   end
+  # end
+
 end
