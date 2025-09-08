@@ -4,7 +4,7 @@ class Api::V1::ReservationsController < ApplicationController
   def index
     @restaurant = Restaurant.find(params[:restaurant_id])
     @reservations = @restaurant.reservations
-    render json: @reservations
+    render json: ReservationSerializer.new(@reservations)
   end
 
   def show
@@ -31,7 +31,7 @@ class Api::V1::ReservationsController < ApplicationController
   private
 
   def reservation_params
-    params.require(:reservation).permit( :party_size, :reservation_time)
+    params.require(:reservation).permit( :party_size, :reservation_time, :status)
   end
 
 end
