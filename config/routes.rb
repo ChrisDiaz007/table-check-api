@@ -24,7 +24,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :cuisines, only: [ :index ]
+      resources :cuisines, only: [ :index, :show ]
 
       post 'refresh_token', to: 'tokens#refresh_token'
 
