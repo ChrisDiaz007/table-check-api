@@ -5,7 +5,7 @@ class RestaurantSerializer
              :description, :phone_number, :website,
              :total_tables, :followers_count, :favorites_count,
              :created_at, :updated_at, :user_id,
-             :about, :lunch_price, :dinner_price, :latitude, :longitude
+             :about, :lunch_price, :dinner_price, :latitude, :longitude, :reservations
 
   attribute :tables do |restaurant|
     restaurant.tables.order(number: :asc).map do |table|
