@@ -7,7 +7,7 @@ class Api::V1::CuisinesController < ApplicationController
 
   def show
     @cuisine = Cuisine.find(params[:id])
-    render json: @cuisine
+    render json: CuisineSerializer.new(@cuisine)
   end
 
 end
