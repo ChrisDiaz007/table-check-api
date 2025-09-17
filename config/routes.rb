@@ -25,7 +25,7 @@ Rails.application.routes.draw do
       end
 
       resources :cuisines, only: [ :index, :show ]
-      resources :cuisines_restaurants, only: [ :create, :destroy]
+      resources :cuisines_restaurants, only: [ :create, :destroy, :update]
 
       post 'refresh_token', to: 'tokens#refresh_token'
 
