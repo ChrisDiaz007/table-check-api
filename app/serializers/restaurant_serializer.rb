@@ -33,7 +33,7 @@ class RestaurantSerializer
     restaurant.cuisines.map(&:name)
   end
 
-  attribute :photo_url do |restaurant|
+  attribute :photo do |restaurant|
     restaurant&.photo.url
   end
 
